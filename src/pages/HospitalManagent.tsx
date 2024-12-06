@@ -77,7 +77,7 @@ export default function HospitalManagent() {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      const filteredData: Org[] = data.org.filter((org) => org.statusOrg === 'true');
+      const filteredData: Org[] = data.org.filter((org:any) => org.statusOrg === 'true');
       setdatatable(filteredData);
       filterData(filteredData); // Apply filter to data after fetching
     } catch (error) {

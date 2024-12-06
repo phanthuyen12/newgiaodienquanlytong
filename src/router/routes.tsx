@@ -8,6 +8,7 @@ const LoginBoxed = lazy(() => import('../pages/LoginBoxed'));
 const Error = lazy(() => import('../components/Error'));
 const HospitalApproval = lazy(() => import('../pages/HospitalApproval'));
 const HospitalManagent = lazy(() => import('../pages/HospitalManagent'));
+const ChangeAdminHospital = lazy(() => import('../pages/requestadminhostpital'));
 
 const routes = [
     // dashboard (protected)
@@ -45,6 +46,14 @@ const routes = [
             </PrivateRoute>
         ),
     },
+    {
+        path: '/change-hospital-admin',
+        element: (
+            <PrivateRoute>
+                <ChangeAdminHospital />
+            </PrivateRoute>
+        ),
+    },
     // New hospital (protected)
     {
         path: '/new-hospital',
@@ -60,6 +69,7 @@ const routes = [
         element: <LoginBoxed />,
         layout: 'blank',
     },
+
     // Error page (public)
     {
         path: '*',
