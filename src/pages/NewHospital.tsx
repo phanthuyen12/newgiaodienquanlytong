@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import CodeHighlight from '../components/Highlight';
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from '../store/themeConfigSlice';
-import IconCircleCheck from '../components/Icon/IconCircleCheck';
-import IconXCircle from '../components/Icon/IconXCircle';
-import Dropdown from '../components/Dropdown';
-import {Hospital} from '../model/HospitalModel';
 import { useHospital } from '../controller/HospitalController'; // Sử dụng hook quản lý hospital
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -57,8 +51,8 @@ const ManagementNetwork = () => {
   
   const handleAddHospital = async () => {
       const loadingSwal:any = MySwal.fire({
-      title: 'Please wait...',
-      text: 'New Hospital a group, please wait!',
+      title: 'Vui lòng chờ...',
+      text: 'Bệnh Viện Mới, Vui lòng chờ!',
       icon: 'info',
       allowOutsideClick: false, // Prevent closing the modal while loading
       showConfirmButton: false, // Hide the confirmation button
@@ -73,14 +67,14 @@ const ManagementNetwork = () => {
 
    if(result.success===true){
     MySwal.fire({
-      title: 'Add to Hospital',
-      text: 'Add to Hospital in Success',
+      title: 'Thêm Bệnh Viện mới',
+      text: 'Thêm Bệnh Viện Thành Công',
       icon: 'success',
     });
    }else{
     MySwal.fire({
-      title: 'Add to Hospital',
-      text: 'Add to Hospital in error',
+      title: 'Thêm Bệnh Viện mới',
+      text: 'Thêm Bệnh Viện xảy ra lỗi',
       icon: 'error',
     });
    }
@@ -95,7 +89,7 @@ const ManagementNetwork = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Add New Hospital</h1>
+      <h1 className="text-2xl font-bold mb-4">Thêm Bệnh Viện Mới</h1>
 
     
    
@@ -103,25 +97,25 @@ const ManagementNetwork = () => {
 
       {/* Add Hospital Form */}
       <div className="bg-white p-6 shadow rounded-lg mb-6">
-        <h2 className="text-xl mb-4">Add Hospital</h2>
+        <h2 className="text-xl mb-4">Thêm Bệnh Viện</h2>
         <div className="mb-4">
-          <label className="block mb-2">Hospital Name</label>
+          <label className="block mb-2">Tên Bệnh Viện</label>
           <input
             type="text"
             value={adminInfo.nameorg}
             onChange={(e) => setAdminInfo({ ...adminInfo, nameorg: e.target.value })}
             className="w-full p-2 border rounded"
-            placeholder="Enter hospital name"
+            placeholder="Nhập Tên Bệnh Viện"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2">Admin Name</label>
+          <label className="block mb-2">Tên ADMIN</label>
           <input
             type="text"
             value={adminInfo.nameadmin}
             onChange={(e) => setAdminInfo({ ...adminInfo, nameadmin: e.target.value })}
             className="w-full p-2 border rounded"
-            placeholder="Enter admin name"
+            placeholder="Nhập Vào tên ADMIN"
           />
         </div>
         <div className="mb-4">
@@ -131,7 +125,7 @@ const ManagementNetwork = () => {
             value={adminInfo.cccdadmin}
             onChange={(e) => setAdminInfo({ ...adminInfo, cccdadmin: e.target.value })}
             className="w-full p-2 border rounded"
-            placeholder="Enter Admin ID (CCCD)"
+            placeholder="Nhập vào Admin ID (CCCD)"
           />
         </div>
         <div className="mb-4">
@@ -141,41 +135,41 @@ const ManagementNetwork = () => {
             value={adminInfo.emailadmin}
             onChange={(e) => setAdminInfo({ ...adminInfo, emailadmin: e.target.value })}
             className="w-full p-2 border rounded"
-            placeholder="Enter admin email"
+            placeholder="Nhập Vào admin email"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2">Admin Address</label>
+          <label className="block mb-2">Địa Chỉ Admin</label>
           <input
             type="text"
             value={adminInfo.addressadmin}
             onChange={(e) => setAdminInfo({ ...adminInfo, addressadmin: e.target.value })}
             className="w-full p-2 border rounded"
-            placeholder="Enter admin address"
+            placeholder="Nhập vào địa chỉ ADMIN"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2">Admin Phone</label>
+          <label className="block mb-2">Số Điện Thoại Admin</label>
           <input
             type="text"
             value={adminInfo.phoneadmin}
             onChange={(e) => setAdminInfo({ ...adminInfo, phoneadmin: e.target.value })}
             className="w-full p-2 border rounded"
-            placeholder="Enter admin phone number"
+            placeholder="Nhập Vào Số Điện Thoại ADMIN"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2">Admin Password</label>
+          <label className="block mb-2">Mật KhẩuAdmin</label>
           <input
             type="password"
             value={adminInfo.passworkadmin}
             onChange={(e) => setAdminInfo({ ...adminInfo, passworkadmin: e.target.value })}
             className="w-full p-2 border rounded"
-            placeholder="Enter admin password"
+            placeholder="Nhập Vào Mật Khẩu"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2">Business Image (Base64)</label>
+          <label className="block mb-2">Hình ảnh giấy phép kinh doanh (Base64)</label>
           <input
             type="file"
             onChange={base64img}
@@ -193,7 +187,7 @@ const ManagementNetwork = () => {
           />
         </div>
         <button onClick={handleAddHospital} className="bg-blue-500 text-white px-4 py-2 rounded">
-          Add Hospital
+          Thêm Bệnh Viện
         </button>
       </div>
    

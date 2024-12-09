@@ -8,10 +8,6 @@ import i18next from 'i18next';
 import IconCaretDown from '../components/Icon/IconCaretDown';
 import IconMail from '../components/Icon/IconMail';
 import IconLockDots from '../components/Icon/IconLockDots';
-import IconInstagram from '../components/Icon/IconInstagram';
-import IconFacebookCircle from '../components/Icon/IconFacebookCircle';
-import IconTwitter from '../components/Icon/IconTwitter';
-import IconGoogle from '../components/Icon/IconGoogle';
 import { loginUser } from '../service/UserService'; // Sử dụng hook quản lý hospital
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -49,16 +45,16 @@ const LoginBoxed = () => {
             localStorage.setItem('usertoken', responsive.message.toke); // Lưu token vào localStorage
 
             MySwal.fire({
-                title: 'login success',
-                text: 'Login Success',
+                title: 'Đăng Nhập Thành Công',
+                text: 'Đăng Nhập Thành Công',
                 icon: 'success',
               });
               navigate('/');
         }else{
-            console.log('login thất bại')
+            console.log('Đăng Nhập thất bại')
             MySwal.fire({
-                title: 'login error',
-                text: 'login error',
+                title: 'Đăng Nhập thất bại',
+                text: 'Đăng Nhập thất bại',
                 icon: 'error',
               });
         }
@@ -120,7 +116,7 @@ const LoginBoxed = () => {
                         <div className="mx-auto w-full max-w-[440px]">
                             <div className="mb-10">
                                 <h1 className="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">Sign in</h1>
-                                <p className="text-base font-bold leading-normal text-white-dark">Enter your email and password to login</p>
+                                <p className="text-base font-bold leading-normal text-white-dark">Nhập Vào Email Và Password Của Bạn Để Đăng Nhập</p>
                             </div>
                             <form className="space-y-5 dark:text-white" onSubmit={submitForm}>
                                 <div>
