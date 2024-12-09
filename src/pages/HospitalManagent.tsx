@@ -150,15 +150,15 @@ export default function HospitalManagent() {
 
 
       <div className="panel mt-6">
-        <h5 className="font-semibold text-lg dark:text-white-light mb-5">Managent Hospital</h5>
+        <h5 className="font-semibold text-lg dark:text-white-light mb-5">Quản Lý Bệnh Viện</h5>
         <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
         <TextInput
-          placeholder="Search by organization name"
+          placeholder="Tìm kiếm theo tên Bệnh viện"
           value={searchName}
           onChange={(event) => setSearchName(event.currentTarget.value)}
         />
         <Select
-          placeholder="Filter by status"
+          placeholder="Sắp xếp theo trạng thái"
           value={statusFilter}
           onChange={(value) => setStatusFilter(value || '')}
           data={[
@@ -184,13 +184,13 @@ export default function HospitalManagent() {
                   />
                 ),
               },
-              { accessor: 'nameorg', title: 'Organization Name' },
-              { accessor: 'statusOrg', title: 'Status' },
+              { accessor: 'nameorg', title: 'Tên Bệnh Viện' },
+              { accessor: 'statusOrg', title: 'Trạng Thái' },
               {
                 accessor: 'Detail',
-                title: 'Detail',
+                title: 'Thông Tin',
                 render: (record) => (
-                  <Button onClick={() => handleDetailClick(record)}>View Details</Button>
+                  <Button onClick={() => handleDetailClick(record)}>Xem Thông Tin</Button>
                 ),
               },
               {
@@ -230,13 +230,13 @@ export default function HospitalManagent() {
             </div>
             <div>
               <label>
-                <strong>Organization Name:</strong>
+                <strong>Tên Bệnh Viện:</strong>
               </label>
               <input type="text" value={selectedOrg.nameorg} readOnly className="form-input" />
             </div>
             <div>
               <label>
-                <strong>Admin Name:</strong>
+                <strong>Tên ADMIN:</strong>
               </label>
               <input type="text" value={selectedOrg.nameadmin} readOnly className="form-input" />
             </div>
@@ -248,25 +248,25 @@ export default function HospitalManagent() {
             </div>
             <div>
               <label>
-                <strong>Address Admin:</strong>
+                <strong>Địa Chỉ Admin:</strong>
               </label>
               <input type="text" value={selectedOrg.addressadmin} readOnly className="form-input" />
             </div>
             <div>
               <label>
-                <strong>Phone Admin:</strong>
+                <strong>Số Điện Thoại Admin:</strong>
               </label>
               <input type="tel" value={selectedOrg.phoneadmin} readOnly className="form-input" />
             </div>
             <div>
               <label>
-                <strong>Status:</strong>
+                <strong>Trạng thái:</strong>
               </label>
               <input type="text" value={selectedOrg.statusOrg} readOnly className="form-input" />
             </div>
             <div>
               <label>
-                <strong>Timestamp:</strong>
+                <strong>Thời Gian Tạo:</strong>
               </label>
               <input type="text" value={selectedOrg.timestamp} readOnly className="form-input" />
             </div>

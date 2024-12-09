@@ -54,8 +54,8 @@ export default function HospitalApproval() {
   
     // Hiển thị modal chờ
     const loadingSwal: any = MySwal.fire({
-      title: 'Please wait...',
-      text: 'Approval Hospital a group, please wait!',
+      title: 'Vui Lòng Chờ...',
+      text: 'Đang Phê Duyệt, Vui Lòng Chờ!',
       icon: 'info',
       allowOutsideClick: false,
       showConfirmButton: false,
@@ -90,8 +90,8 @@ export default function HospitalApproval() {
       // Đóng modal chờ và hiển thị thông báo thành công
       loadingSwal.close();
       MySwal.fire({
-        title: 'Hospital Success',
-        text: 'Add to Hospital in Success',
+        title: 'Hoàn Thành',
+        text: 'Phê Duyệt Thành Công',
         icon: 'success',
       });
   
@@ -225,8 +225,8 @@ export default function HospitalApproval() {
       console.log('Success:', _data);
       if(_data.status===true){
         MySwal.fire({
-          title: 'Hospital Success',
-          text: 'Add to Hospital in Success',
+          title: 'Hoàn Thành',
+          text: 'Thêm Bệnh Viện Thành Công !',
           icon: 'success',
           
         });
@@ -249,15 +249,15 @@ export default function HospitalApproval() {
   return (
     <div>
       <div className="panel mt-6">
-        <h5 className="font-semibold text-lg dark:text-white-light mb-5">Manage Hospital Approvals</h5>
+        <h5 className="font-semibold text-lg dark:text-white-light mb-5">Quản Lý Phê Duyệt</h5>
         <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
           <TextInput
-            placeholder="Search by organization name"
+            placeholder="Tìm kiếm theo tên Bệnh Viện"
             value={searchName}
             onChange={(event) => setSearchName(event.currentTarget.value)}
           />
           <Select
-            placeholder="Filter by status"
+            placeholder="Sắp xếp theo trạng thái"
             value={statusFilter}
             onChange={(value) => setStatusFilter(value || '')}
             data={[
@@ -283,18 +283,18 @@ export default function HospitalApproval() {
                   />
                 ),
               },
-              { accessor: 'nameorg', title: 'Organization Name' },
-              { accessor: 'statusOrg', title: 'Status' },
+              { accessor: 'nameorg', title: 'Tên Bệnh Viện' },
+              { accessor: 'statusOrg', title: 'Trạng Thái' },
               {
                 accessor: 'Detail',
-                title: 'Detail',
+                title: 'Thông Tin',
                 render: (record) => (
-                  <Button onClick={() => handleDetailClick(record)}>View Details</Button>
+                  <Button onClick={() => handleDetailClick(record)}>Xem Thông Tin</Button>
                 ),
               },
               {
                 accessor: 'Approve',
-                title: 'Approve',
+                title: 'Phê Duyệt',
                 render: (record) => (
                   <Button
                   color={record.statusOrg === "true" ? 'green' : 'green'}
@@ -306,7 +306,7 @@ export default function HospitalApproval() {
                     }
                   }}
                 >
-                  {record.statusOrg === "true" ? 'Synchronize SQL' : 'Approve'} 
+                  {record.statusOrg === "true" ? 'Đồng Bộ SQL' : 'Phê Duyệt'} 
                 </Button>
                 
                 ),
@@ -319,7 +319,7 @@ export default function HospitalApproval() {
             recordsPerPageOptions={PAGE_SIZES}
             onRecordsPerPageChange={setPageSize}
             minHeight={200}
-            paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
+            paginationText={({ from, to, totalRecords }) => `Hiển Thị ${from} đến ${to} của ${totalRecords} entries`}
           />
         </div>
       </div>
@@ -339,13 +339,13 @@ export default function HospitalApproval() {
             </div>
             <div>
               <label>
-                <strong>Organization Name:</strong>
+                <strong>Tên Bệnh Viện:</strong>
               </label>
               <input type="text" value={selectedOrg.nameorg} readOnly className="form-input" />
             </div>
             <div>
               <label>
-                <strong>Admin Name:</strong>
+                <strong>Tên Admin:</strong>
               </label>
               <input type="text" value={selectedOrg.nameadmin} readOnly className="form-input" />
             </div>
@@ -357,7 +357,7 @@ export default function HospitalApproval() {
               />
             <div>
               <label>
-                <strong>Admin Address:</strong>
+                <strong>Địa Chỉ Admin:</strong>
               </label>
               <input
                 type="text"
@@ -368,7 +368,7 @@ export default function HospitalApproval() {
             </div>
             <div>
               <label>
-                <strong>Admin Phone:</strong>
+                <strong>Số Điện Thoại Admin:</strong>
               </label>
               <input
                 type="text"
@@ -379,7 +379,7 @@ export default function HospitalApproval() {
             </div>
             <div>
               <label>
-                <strong>Status:</strong>
+                <strong>Trạng Thái:</strong>
               </label>
               <input
                 type="text"
@@ -390,7 +390,7 @@ export default function HospitalApproval() {
             </div>
             <div>
               <label>
-                <strong>Timestamp:</strong>
+                <strong>Thời Gian :</strong>
               </label>
               <input
                 type="text"

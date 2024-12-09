@@ -67,8 +67,8 @@ const ManagementNetwork = () => {
   const handleStartNetwork =async (network: NetworkData) => {
     console.log('Starting Network:', network.networkName);
     const loadingSwal:any = MySwal.fire({
-      title: 'Please wait...',
-      text: 'Creating a group, please wait!',
+      title: 'Vui Lòng Chờ...',
+      text: 'Đang Tạo Mới, Vui Lòng Chờ!',
       icon: 'info',
       allowOutsideClick: false, // Prevent closing the modal while loading
       showConfirmButton: false, // Hide the confirmation button
@@ -82,14 +82,14 @@ const ManagementNetwork = () => {
       loadingSwal.close();
 
       MySwal.fire({
-        title: 'Success',
-        text: 'Network created successfully!',
+        title: 'Hoàn Thành',
+        text: 'Khởi Tạo Mạng Thành Công !',
         icon: 'success',
       });
     }else{
       MySwal.fire({
         title: 'Error',
-        text: 'Error creating the network.',
+        text: 'Xảy ra lỗi khi khởi tạo mạng.',
         icon: 'error',
       });
     }
@@ -102,8 +102,8 @@ const ManagementNetwork = () => {
     try {
       // Hiển thị thông báo chờ
       const loadingSwal:any = MySwal.fire({
-        title: 'Please wait...',
-        text: 'Stopping network, please wait!',
+        title: 'Vui Lòng Chờ...',
+        text: 'Đang Dừng Mạng, Vui Lòng Chờ!',
         icon: 'info',
         allowOutsideClick: false, // Ngăn người dùng đóng thông báo trong khi đang xử lý
         showConfirmButton: false, // Ẩn nút xác nhận
@@ -121,14 +121,14 @@ const ManagementNetwork = () => {
   
       if (res.status === true) {
         MySwal.fire({
-          title: 'Success',
-          text: 'Network stopped successfully!',
+          title: 'Hoàn Thành',
+          text: 'Mạng Đã Được Dừng Thành Công!',
           icon: 'success',
         });
       } else {
         MySwal.fire({
           title: 'Error',
-          text: 'Error stopping the network.',
+          text: 'Xảy ra lỗi khi dừng mạng.',
           icon: 'error',
         });
       }
@@ -190,38 +190,38 @@ const ManagementNetwork = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Fabric Network Management</h1>
+      <h1 className="text-2xl font-bold mb-4">Quản lý mạng Fabric</h1>
 
       {/* Create New Network */}
       <div className="bg-white p-6 shadow rounded-lg mb-6">
-        <h2 className="text-xl mb-4">Create New Network</h2>
+        <h2 className="text-xl mb-4">Tạo Mạng Mới</h2>
         <div className="mb-4">
-          <label className="block mb-2">Network Name</label>
+          <label className="block mb-2">Tên Mạng</label>
           <input
             type="text"
             value={networkName}
             onChange={(e) => setNetworkName(e.target.value)}
             className="w-full p-2 border rounded"
-            placeholder="Enter network name"
+            placeholder="Nhập Vào Tên Mạng"
           />
         </div>
         <button onClick={handleCreateNetwork} className="bg-blue-500 text-white px-4 py-2 rounded">
-          Create Network
+          Tạo Mới
         </button>
       </div>
 
       {/* Network Statistics */}
       <div className="bg-white p-6 shadow rounded-lg mb-6">
-        <h2 className="text-xl mb-4">Network Statistics</h2>
+        <h2 className="text-xl mb-4">Thống Kê Mạng</h2>
 
         <table className="w-full table-auto border-collapse border border-gray-200">
           <thead>
             <tr>
-              <th className="border border-gray-300 px-4 py-2">Network Name</th>
-              <th className="border border-gray-300 px-4 py-2">Chaincode Name</th>
-              <th className="border border-gray-300 px-4 py-2">Status</th>
-              <th className="border border-gray-300 px-4 py-2">Time Create</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
+              <th className="border border-gray-300 px-4 py-2">Tên Mạng</th>
+              <th className="border border-gray-300 px-4 py-2">Trạng Thái Chaincode</th>
+              <th className="border border-gray-300 px-4 py-2">Trạng thái mạng </th>
+              <th className="border border-gray-300 px-4 py-2">Thời gian tạo</th>
+              <th className="border border-gray-300 px-4 py-2">Hành Động</th>
             </tr>
           </thead>
           <tbody>
@@ -236,19 +236,19 @@ const ManagementNetwork = () => {
                     onClick={() => handleStartNetwork(network)}
                     className="bg-green-500 text-white px-2 py-1 rounded"
                   >
-                    Start Network
+                    Khởi chạy
                   </button>
                   <button
                     onClick={() => handleDeployChaincode(network)}
                     className="bg-blue-500 text-white px-2 py-1 rounded"
                   >
-                    Deploy Chaincode
+                    triển khai Chaincode
                   </button>
                   <button
                     onClick={() => handleStopNetwork(network)}
-                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                    className="bg-red-500 text-white px-2 py-1 rounded"
                   >
-                    Stop Network
+                    Dừng
                   </button>
                  
                 </td>

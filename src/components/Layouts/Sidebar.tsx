@@ -3,35 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
 import { toggleSidebar } from '../../store/themeConfigSlice';
-import AnimateHeight from 'react-animate-height';
 import { IRootState } from '../../store';
 import { useState, useEffect } from 'react';
 import IconCaretsDown from '../Icon/IconCaretsDown';
-import IconCaretDown from '../Icon/IconCaretDown';
-import IconMenuDashboard from '../Icon/Menu/IconMenuDashboard';
 import IconMinus from '../Icon/IconMinus';
 import IconMenuChat from '../Icon/Menu/IconMenuChat';
-import IconMenuMailbox from '../Icon/Menu/IconMenuMailbox';
-import IconMenuTodo from '../Icon/Menu/IconMenuTodo';
-import IconMenuNotes from '../Icon/Menu/IconMenuNotes';
-import IconMenuScrumboard from '../Icon/Menu/IconMenuScrumboard';
-import IconMenuContacts from '../Icon/Menu/IconMenuContacts';
-import IconMenuInvoice from '../Icon/Menu/IconMenuInvoice';
-import IconMenuCalendar from '../Icon/Menu/IconMenuCalendar';
-import IconMenuComponents from '../Icon/Menu/IconMenuComponents';
-import IconMenuElements from '../Icon/Menu/IconMenuElements';
-import IconMenuCharts from '../Icon/Menu/IconMenuCharts';
-import IconMenuWidgets from '../Icon/Menu/IconMenuWidgets';
-import IconMenuFontIcons from '../Icon/Menu/IconMenuFontIcons';
-import IconMenuDragAndDrop from '../Icon/Menu/IconMenuDragAndDrop';
-import IconMenuTables from '../Icon/Menu/IconMenuTables';
-import IconMenuDatatables from '../Icon/Menu/IconMenuDatatables';
-import IconMenuForms from '../Icon/Menu/IconMenuForms';
-import IconMenuUsers from '../Icon/Menu/IconMenuUsers';
-import IconMenuPages from '../Icon/Menu/IconMenuPages';
-import IconMenuAuthentication from '../Icon/Menu/IconMenuAuthentication';
-import IconMenuDocumentation from '../Icon/Menu/IconMenuDocumentation';
-import HospitalManagent from '../../pages/HospitalManagent';
+
 
 const Sidebar = () => {
     const [currentMenu, setCurrentMenu] = useState<string>('');
@@ -97,7 +74,7 @@ const Sidebar = () => {
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
                         <h2 className="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
                                 <IconMinus className="w-4 h-5 flex-none hidden" />
-                                <span>{t('main')}</span>
+                                <span>{t('ADMIN')}</span>
                             </h2>
                             <li className="nav-item">
                                 <ul>
@@ -105,7 +82,7 @@ const Sidebar = () => {
                                         <NavLink to="/" className="group">
                                             <div className="flex items-center">
                                                 <IconMenuChat className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Home')}</span>
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Trang Chủ')}</span>
                                             </div>
                                         </NavLink>
                                     </li>
@@ -113,7 +90,7 @@ const Sidebar = () => {
                                         <NavLink to="/managent-network" className="group">
                                             <div className="flex items-center">
                                                 <IconMenuChat className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Managent Network')}</span>
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Quản Lý Hệ Thống Mạng')}</span>
                                             </div>
                                         </NavLink>
                                     </li>
@@ -123,7 +100,7 @@ const Sidebar = () => {
 
                             <h2 className="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
                                 <IconMinus className="w-4 h-5 flex-none hidden" />
-                                <span>{t('apporganizations')}</span>
+                                <span>{t('ADMIN Tổ Chức')}</span>
                             </h2>
 
                             <li className="nav-item">
@@ -132,7 +109,7 @@ const Sidebar = () => {
                                         <NavLink to="/new-hospital" className="group">
                                             <div className="flex items-center">
                                                 <IconMenuChat className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('New Hospital')}</span>
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Thêm Tổ Chức Mới')}</span>
                                             </div>
                                         </NavLink>
                                     </li>
@@ -140,7 +117,7 @@ const Sidebar = () => {
                                         <NavLink to="/hospital-approval" className="group">
                                             <div className="flex items-center">
                                                 <IconMenuChat className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Hospital Approval')}</span>
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Phê Duyệt Đăng Ký')}</span>
                                             </div>
                                         </NavLink>
                                     </li>
@@ -148,7 +125,7 @@ const Sidebar = () => {
                                         <NavLink to="/hospital-managent" className="group">
                                             <div className="flex items-center">
                                                 <IconMenuChat className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Hospital Management')}</span>
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Quản Lý Bệnh Viện')}</span>
                                             </div>
                                         </NavLink>
                                     </li>
@@ -156,7 +133,7 @@ const Sidebar = () => {
                                         <NavLink to="/change-hospital-admin" className="group">
                                             <div className="flex items-center">
                                                 <IconMenuChat className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Đơn Đổi Quản Trị')}</span>
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Thay Đổi Quản Trị')}</span>
                                             </div>
                                         </NavLink>
                                     </li>
