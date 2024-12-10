@@ -20,3 +20,19 @@ export const createHospital = async (hospital: Hospital): Promise<Hospital> => {
   const data: any = await response.json();
   return data;  // Trả về đối tượng Hospital
 };
+export const showHospitalListFalse = async (hospital: Hospital): Promise<Hospital> => {
+  const response = await fetch(`${API_URL}/false/show-all-org`, {
+    method: "POST",
+    body: JSON.stringify(hospital),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to create hospital: ${response.statusText}`);
+  }
+
+  const data: any = await response.json();
+  return data;  // Trả về đối tượng Hospital
+};

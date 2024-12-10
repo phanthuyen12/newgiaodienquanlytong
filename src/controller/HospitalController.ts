@@ -11,15 +11,14 @@ export const useHospital = () => {
     try {
       setLoading(true);  // Bắt đầu quá trình tải
       const newHospital = await createHospital(hospital);
-      
       // Cập nhật danh sách bệnh viện khi tạo thành công
       setDataHospital([...dataHospital, newHospital]);
 
       // Thông báo thành công
-      setSuccess('Hospital created successfully!');
+      setSuccess('Tạo Bệnh Viện Thành Công!');
       return newHospital;
     } catch (error) {
-      console.error('Failed to create hospital', error);
+      console.error('Tạo Bệnh Viện Không Thành Công', error);
       return error
     } finally {
       setLoading(false);  // Kết thúc quá trình tải

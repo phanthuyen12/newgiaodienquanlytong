@@ -2,9 +2,12 @@ import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from '../store/themeConfigSlice';
-import { Modal, Button, Checkbox, TextInput, Select } from '@mantine/core'; // Import TextInput and Select from Mantine
+import { Modal, Button, Checkbox, TextInput, Select } from '@mantine/core';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const API_URL = import.meta.env.VITE_API_URL; 
 
 interface Org {
   nameorg: string;
@@ -29,7 +32,9 @@ interface User {
   cccd: string;
 }
 
-export default function HospitalManagent() {
+export default function HospitalApproval() {
+  const MySwal = withReactContent(Swal);
+
   const [datatable, setdatatable] = useState<Org[]>([]);
   const [recordsData, setRecordsData] = useState<Org[]>([]);
   const [page, setPage] = useState(1);
@@ -41,14 +46,85 @@ export default function HospitalManagent() {
 
   // New state for filtering
   const [searchName, setSearchName] = useState('');
-  const [statusFilter, setStatusFilter] = useState(''); // Filter for status (approved/pending)
+  const [statusFilter, setStatusFilter] = useState('');
 
   const dispatch = useDispatch();
 
+  const handleStopOrg = async (record:any)=>{
+    console.log("bcc",record.tokeorg);
+
+    const loadingSwal: any = MySwal.fire({
+      title: 'Vui Lòng Chờ...',
+      text: 'Đang Hủy Kết Nối, Vui Lòng Chờ!',
+      icon: 'info',
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+      // Gửi yêu cầu POST đầu tiên tới API để hủy kết nối tổ chức
+      const response = await fetch(`${API_URL}/creater-org-folders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          value: record.statusOrg,
+          tokeorg: record.tokeorg,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const result = await response.json();
+      const outputData = result.data.output.org;
+      console.log(outputData);
+      // Gửi yêu cầu POST thứ hai tới API Laravel để lưu thông tin tổ chức
+    
+  
+      // Đóng modal chờ và hiển thị thông báo thành công
+      loadingSwal.close();
+      MySwal.fire({
+        title: 'Hoàn Thành',
+        text: 'Phê Duyệt Thành Công',
+        icon: 'success',
+      });
+  
+      // console.log('Response from server:', await responses.json());
+    } catch (error) {
+      // Xử lý lỗi và hiển thị thông báo thất bại
+      console.error('Error when creating organization:', error);
+      loadingSwal.close();
+      MySwal.fire({
+        title: 'Hospital Error',
+        text: 'Add to Hospital in error',
+        icon: 'error',
+      });
+    }
+  }
   const handleApproveClick = async (org: Org) => {
     console.log('Organization approved:', org.nameorg, org.tokeorg);
+  
+    // Hiển thị modal chờ
+    const loadingSwal: any = MySwal.fire({
+      title: 'Vui Lòng Chờ...',
+      text: 'Đang Phê Duyệt, Vui Lòng Chờ!',
+      icon: 'info',
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+  
     try {
-      const response = await fetch('http://103.179.185.78:3002/creater-org-folders', {
+      // Gửi yêu cầu POST đầu tiên tới API để tạo thư mục tổ chức
+      const response = await fetch(`${API_URL}/creater-org-folders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,39 +140,56 @@ export default function HospitalManagent() {
       }
   
       const result = await response.json();
-      console.log('Response from server:', result);
+      const outputData = result.data.output.org;
+      console.log(outputData);
+      // Gửi yêu cầu POST thứ hai tới API Laravel để lưu thông tin tổ chức
+    
+  
+      // Đóng modal chờ và hiển thị thông báo thành công
+      loadingSwal.close();
+      MySwal.fire({
+        title: 'Hoàn Thành',
+        text: 'Phê Duyệt Thành Công',
+        icon: 'success',
+      });
+  
+      // console.log('Response from server:', await responses.json());
     } catch (error) {
-      console.error('Có lỗi xảy ra khi tạo tổ chức:', error);
+      // Xử lý lỗi và hiển thị thông báo thất bại
+      console.error('Error when creating organization:', error);
+      loadingSwal.close();
+      MySwal.fire({
+        title: 'Hospital Error',
+        text: 'Add to Hospital in error',
+        icon: 'error',
+      });
     }
   };
   
   const showdata = async () => {
     try {
-      const response = await fetch('http://103.179.185.78:3002/show-all-org');
+      const response = await fetch(`${API_URL}/true/show-all-org`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const data = await response.json();
-      const filteredData: Org[] = data.org.filter((org:any) => org.statusOrg === 'true');
-      setdatatable(filteredData);
-      filterData(filteredData); // Apply filter to data after fetching
+      const data: any = await response.json();
+      console.log(data);
+      setdatatable(data);
     } catch (error) {
-      console.error('Có lỗi xảy ra khi lấy dữ liệu:', error);
+      console.error('Error fetching data:', error);
     }
   };
 
   // Filter the data based on search input and status
   const filterData = (data: Org[]) => {
     let filteredData = data;
-    
-    // Filter by organization name
+
     if (searchName) {
       filteredData = filteredData.filter((org) =>
         org.nameorg.toLowerCase().includes(searchName.toLowerCase())
       );
     }
 
-    // Filter by status
     if (statusFilter) {
       filteredData = filteredData.filter((org) => org.statusOrg === statusFilter);
     }
@@ -118,7 +211,6 @@ export default function HospitalManagent() {
     setRecordsData(datatable.slice(from, to));
   }, [page, pageSize, datatable]);
 
-  // Update filter whenever searchName or statusFilter changes
   useEffect(() => {
     filterData(datatable);
   }, [searchName, statusFilter]);
@@ -143,30 +235,81 @@ export default function HospitalManagent() {
       setSelectedOrgs(recordsData.map((org) => org.tokeorg));
     }
   };
+ 
+
+  const handleSynchronizeClick = async (record:any) => {
+    try {
+      const data = {
+        nameorg: record.nameorg,
+        nameadmin: record.nameadmin,
+        cccd:  record.users[0]?.cccd,
+        emailadmin: record.emailadmin,
+        tokenorg: record.tokeorg,
+        phoneadmin: record.phoneadmin,
+        businessBase64:  record.users[0]?.cccd,
+        password: record.users[0]?.password,
+        addressadmin: record.addressadmin,
+        imgidentification: record.users[0]?.cccd,
+        username: record.nameorg,
+    };
+    
+    // Ghi log dữ liệu ra console
+    console.log('Data being sent:', data);
+      const responses = await fetch(`http://127.0.0.1:8000/api/organizations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        credentials: 'include', // Bật chế độ xác thực
+        body: JSON.stringify(data),
+      });
+  
+      const _data = await responses.json();
+      console.log('Success:', _data);
+      if(_data.status===true){
+        MySwal.fire({
+          title: 'Hoàn Thành',
+          text: 'Thêm Bệnh Viện Thành Công !',
+          icon: 'success',
+          
+        });
+      }else{
+        MySwal.fire({
+          
+          title: 'Hospital Error',
+          text: 'Add to Hospital in error',
+          icon: 'error',
+        });
+      
+      }
+  
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
 
   return (
     <div>
-      {/* Filters */}
-
-
+        <h5 className="text-2xl dark:text-white-light mb-5">Quản Lý Bệnh Viện</h5>
       <div className="panel mt-6">
-        <h5 className="font-semibold text-lg dark:text-white-light mb-5">Quản Lý Bệnh Viện</h5>
         <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-        <TextInput
-          placeholder="Tìm kiếm theo tên Bệnh viện"
-          value={searchName}
-          onChange={(event) => setSearchName(event.currentTarget.value)}
-        />
-        <Select
-          placeholder="Sắp xếp theo trạng thái"
-          value={statusFilter}
-          onChange={(value) => setStatusFilter(value || '')}
-          data={[
-            { value: 'true', label: 'Approved' },
-            { value: 'false', label: 'Pending' },
-          ]}
-        />
-      </div>
+          <TextInput
+            placeholder="Tìm kiếm theo tên Bệnh Viện"
+            value={searchName}
+            onChange={(event) => setSearchName(event.currentTarget.value)}
+          />
+          <Select
+            placeholder="Sắp xếp theo trạng thái"
+            value={statusFilter}
+            onChange={(value) => setStatusFilter(value || '')}
+            data={[
+              { value: 'true', label: 'Approved' },
+              { value: 'false', label: 'Pending' },
+            ]}
+          />
+        </div>
         <div className="datatables">
           <DataTable
             noRecordsText="No results match your search query"
@@ -195,11 +338,40 @@ export default function HospitalManagent() {
               },
               {
                 accessor: 'Approve',
-                title: 'Approve',
+                title: 'Đồng Bộ Dữ Liệu',
                 render: (record) => (
-                  <Button color="green" onClick={() => handleApproveClick(record)}>
-                    Approve
-                  </Button>
+                  <Button
+                  color={record.statusOrg === "true" ? 'green' : 'green'}
+                  onClick={() => {
+                    if (record.statusOrg === "true") {
+                      handleSynchronizeClick(record);
+                    } else {
+                      handleApproveClick(record);
+                    }
+                  }}
+                >
+                  {record.statusOrg === "true" ? 'Đồng Bộ SQL' : 'Phê Duyệt'} 
+                </Button>
+                
+                ),
+              },
+              {
+                accessor: 'tokenorg',
+                title: 'Đồng Bộ Dữ Liệu',
+                render: (record) => (
+                  <Button
+                  color={record.statusOrg === "true" ? 'red' : 'red '}
+                  onClick={() => {
+                    if (record.statusOrg === "true") {
+                      handleStopOrg(record);
+                    } else {
+                      handleApproveClick(record);
+                    }
+                  }}
+                >
+                  {record.statusOrg === "true" ? 'Hủy kết nối' : 'Phê Duyệt'} 
+                </Button>
+                
                 ),
               },
             ]}
@@ -210,7 +382,7 @@ export default function HospitalManagent() {
             recordsPerPageOptions={PAGE_SIZES}
             onRecordsPerPageChange={setPageSize}
             minHeight={200}
-            paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
+            paginationText={({ from, to, totalRecords }) => `Hiển Thị ${from} đến ${to} của ${totalRecords} entries`}
           />
         </div>
       </div>
@@ -236,39 +408,59 @@ export default function HospitalManagent() {
             </div>
             <div>
               <label>
-                <strong>Tên ADMIN:</strong>
+                <strong>Tên Admin:</strong>
               </label>
               <input type="text" value={selectedOrg.nameadmin} readOnly className="form-input" />
             </div>
-            <div>
-              <label>
-                <strong>Email Admin:</strong>
-              </label>
-              <input type="email" value={selectedOrg.emailadmin} readOnly className="form-input" />
-            </div>
+            <input
+                type="email"
+                value={selectedOrg.emailadmin}
+                readOnly
+                className="form-input"
+              />
             <div>
               <label>
                 <strong>Địa Chỉ Admin:</strong>
               </label>
-              <input type="text" value={selectedOrg.addressadmin} readOnly className="form-input" />
+              <input
+                type="text"
+                value={selectedOrg.addressadmin}
+                readOnly
+                className="form-input"
+              />
             </div>
             <div>
               <label>
                 <strong>Số Điện Thoại Admin:</strong>
               </label>
-              <input type="tel" value={selectedOrg.phoneadmin} readOnly className="form-input" />
+              <input
+                type="text"
+                value={selectedOrg.phoneadmin}
+                readOnly
+                className="form-input"
+              />
             </div>
             <div>
               <label>
-                <strong>Trạng thái:</strong>
+                <strong>Trạng Thái:</strong>
               </label>
-              <input type="text" value={selectedOrg.statusOrg} readOnly className="form-input" />
+              <input
+                type="text"
+                value={selectedOrg.statusOrg === 'true' ? 'Approved' : 'Pending'}
+                readOnly
+                className="form-input"
+              />
             </div>
             <div>
               <label>
-                <strong>Thời Gian Tạo:</strong>
+                <strong>Thời Gian :</strong>
               </label>
-              <input type="text" value={selectedOrg.timestamp} readOnly className="form-input" />
+              <input
+                type="text"
+                value={new Date(parseInt(selectedOrg.timestamp)).toLocaleString()}
+                readOnly
+                className="form-input"
+              />
             </div>
           </div>
         )}

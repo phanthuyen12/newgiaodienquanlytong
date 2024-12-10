@@ -86,7 +86,8 @@ export default function HospitalApproval() {
       console.log(outputData);
       // Gửi yêu cầu POST thứ hai tới API Laravel để lưu thông tin tổ chức
     
-  
+      await showdata();
+      
       // Đóng modal chờ và hiển thị thông báo thành công
       loadingSwal.close();
       MySwal.fire({
@@ -110,21 +111,13 @@ export default function HospitalApproval() {
   
   const showdata = async () => {
     try {
-      const response = await fetch(`${API_URL}/show-all-org`);
+      const response = await fetch(`${API_URL}/false/show-all-org`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const data: any = await response.json();
       console.log(data);
       setdatatable(data);
-      // Check if data and data.org are defined and if data.org is an array
-      // if (data && data.org && Array.isArray(data.org)) {
-      //   const filteredData: Org[] = data.org.filter((org: any) => org.statusOrg === 'false');
-      //   setdatatable(filteredData);
-      //   filterData(filteredData); // Apply filter to data after fetching
-      // } else {
-      //   console.error('Unexpected response structure:', data);
-      // }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -215,12 +208,6 @@ export default function HospitalApproval() {
         body: JSON.stringify(data),
       });
   
-      // if (!responses.ok) {
-      //   const errorData = await responses.json();
-      //   console.error('Error from server:', errorData); // Log lỗi chi tiết
-      //   throw new Error('Error saving organization to the Laravel API');
-      // }
-  
       const _data = await responses.json();
       console.log('Success:', _data);
       if(_data.status===true){
@@ -248,8 +235,8 @@ export default function HospitalApproval() {
 
   return (
     <div>
+        <h5 className="text-2xl dark:text-white-light mb-5">Quản Lý Phê Duyệt</h5>
       <div className="panel mt-6">
-        <h5 className="font-semibold text-lg dark:text-white-light mb-5">Quản Lý Phê Duyệt</h5>
         <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
           <TextInput
             placeholder="Tìm kiếm theo tên Bệnh Viện"

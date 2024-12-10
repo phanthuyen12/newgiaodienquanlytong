@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { IRootState } from '../store';
 import { setPageTitle } from '../store/themeConfigSlice';
 import { newNetworkNoSql, getFullNetwork,startNetwork ,deloyChainCode,stopNetwork} from '../service/NetworkService';
 import Swal from 'sweetalert2';
@@ -47,8 +46,8 @@ const ManagementNetwork = () => {
       console.log(res.newNetwork.status);
       if (res.newNetwork.status===true) {
         MySwal.fire({
-          title: 'Success',
-          text: 'Network created successfully!',
+          title: 'Hoàn Thành',
+          text: 'Đã khởi tạo mạng thành công!',
           icon: 'success',
         });
         showDataNetwork(); // Refresh data
@@ -68,7 +67,7 @@ const ManagementNetwork = () => {
     console.log('Starting Network:', network.networkName);
     const loadingSwal:any = MySwal.fire({
       title: 'Vui Lòng Chờ...',
-      text: 'Đang Tạo Mới, Vui Lòng Chờ!',
+      text: 'Đang Tạo Mới, Vui Lòng Chờ !',
       icon: 'info',
       allowOutsideClick: false, // Prevent closing the modal while loading
       showConfirmButton: false, // Hide the confirmation button
@@ -149,8 +148,8 @@ const ManagementNetwork = () => {
   const handleDeployChaincode =async (network: NetworkData) => {
     console.log('Deploying Chaincode:', chaincodeName, chaincodeVersion, network.networkName);
     const loadingSwal:any = MySwal.fire({
-      title: 'Please wait...',
-      text: 'DeloyChaincode a group, please wait!',
+      title: 'Vui lòng chờ ...',
+      text: 'khởi tạo chaincode, Vui lòng chờ !',
       icon: 'info',
       allowOutsideClick: false, // Prevent closing the modal while loading
       showConfirmButton: false, // Hide the confirmation button
@@ -164,14 +163,14 @@ const ManagementNetwork = () => {
       loadingSwal.close();
 
       MySwal.fire({
-        title: 'Success',
-        text: 'DeloyChaincode successfully!',
+        title: 'Hoàn thành',
+        text: 'khởi tạo chaincode thành công !',
         icon: 'success',
       });
     }else{
       MySwal.fire({
         title: 'Error',
-        text: 'Error creating the Deloychaincode.',
+        text: 'Xảy ra lỗi khi khởi tạo chaincode.',
         icon: 'error',
       });
     }
@@ -189,9 +188,8 @@ const ManagementNetwork = () => {
   }, [dispatch]);
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Quản lý mạng Fabric</h1>
-
+    <div className="container">
+      <h1 className="text-2xl mb-4">Quản lý mạng Fabric</h1>
       {/* Create New Network */}
       <div className="bg-white p-6 shadow rounded-lg mb-6">
         <h2 className="text-xl mb-4">Tạo Mạng Mới</h2>

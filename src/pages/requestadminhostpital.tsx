@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { GetFullRequestAllAdmin ,ChannelAdmin} from '../controller/RequestAdminController';
+import { GetFullRequestAllAdmin, ChannelAdmin } from '../controller/RequestAdminController';
 
 interface ChangeRequest {
   id: string;
@@ -45,17 +45,17 @@ const RequestAdminHospital = () => {
             const oldDoctorName = req.namecurrentAdminToken || req.currentAdminToken || 'Không có tên';
             const newDoctorName = req.namenewAdminToken || req.newAdminToken || 'Không có tên';
             const nameOrg = req.nameOrg || org.organizationToken;
-  
+
             // Error handling for invalid data
             if (!req.requestId || !org.organizationToken) {
               console.warn('Dữ liệu không hợp lệ:', req);
               return null;
             }
-  
+
             return {
               id: req.requestId,
               hospitalName: nameOrg,
-              hospitalToken:  org.organizationToken,
+              hospitalToken: org.organizationToken,
               oldDoctor: oldDoctorName,
               tokenoldDoctorcurrent: req.currentAdminToken,
               tokenoldDoctornew: req.newAdminToken,
@@ -66,7 +66,7 @@ const RequestAdminHospital = () => {
             };
           })
         );
-  
+
         // Remove null values
         setRequests(formattedRequests.filter(Boolean));
       }
@@ -74,15 +74,15 @@ const RequestAdminHospital = () => {
       console.error('Error fetching requests:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchRequests();
   }, []);
 
-//   import Swal from 'sweetalert2'; // Đảm bảo bạn đã import SweetAlert2
+  //   import Swal from 'sweetalert2'; // Đảm bảo bạn đã import SweetAlert2
 
-// import Swal from 'sweetalert2';
-const handleApprove = async (id: string, hospitalToken: string, newDoctor: string, oldDoctor: string) => {
+  // import Swal from 'sweetalert2';
+  const handleApprove = async (id: string, hospitalToken: string, newDoctor: string, oldDoctor: string) => {
     try {
       // Hiển thị modal xác nhận
       const result = await Swal.fire({
@@ -94,11 +94,11 @@ const handleApprove = async (id: string, hospitalToken: string, newDoctor: strin
         cancelButtonText: 'Hủy',
         reverseButtons: true, // Đảo vị trí của các nút
       });
-  
+
       // Kiểm tra nếu người dùng nhấn "Có, tôi chắc chắn"
       if (result.isConfirmed) {
         console.log(`Phê duyệt yêu cầu đổi tài khoản admin: ${id}`);
-  
+
         // Hiển thị modal "Đang đợi" khi yêu cầu đang được xử lý
         Swal.fire({
           title: 'Đang đợi...',
@@ -107,7 +107,7 @@ const handleApprove = async (id: string, hospitalToken: string, newDoctor: strin
           showConfirmButton: false,
           allowOutsideClick: false,  // Ngừng các hành động khác ngoài việc chờ
         });
-  
+
         // Gửi yêu cầu cập nhật quyền admin
         const data = {
           id: id,
@@ -116,14 +116,14 @@ const handleApprove = async (id: string, hospitalToken: string, newDoctor: strin
           newTokenUser: newDoctor,
         };
         console.log(data);
-  
+
         // Gọi hàm ChannelAdmin để xử lý dữ liệu
         const res = await ChannelAdmin(data);
-  
+
         if (res.status === true) { // Kiểm tra status là true
           // Nếu thành công, thông báo và cập nhật trạng thái
           Swal.fire('Thành công!', 'Yêu cầu đã được phê duyệt.', 'success');
-          
+
           // Cập nhật trạng thái trong state nếu cần
           // setRequests((prev) =>
           //   prev.map((req) =>
@@ -144,7 +144,7 @@ const handleApprove = async (id: string, hospitalToken: string, newDoctor: strin
       Swal.fire('Lỗi!', 'Đã xảy ra lỗi khi phê duyệt yêu cầu.', 'error');
     }
   };
-  
+
 
 
 
@@ -170,95 +170,94 @@ const handleApprove = async (id: string, hospitalToken: string, newDoctor: strin
   );
 
   return (
-    <div className="panel mt-6">
-      <h1 className="text-2xl font-bold mb-4">Quản lý yêu cầu đổi bác sĩ</h1>
-
-      <div className="bg-white p-6 shadow rounded-lg">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-          <h2 className="text-xl mb-2 md:mb-0">Danh sách yêu cầu</h2>
-          <input
-            type="text"
-            placeholder="Tìm kiếm..."
-            className="border border-gray-300 p-2 rounded w-full md:w-1/3"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse border border-gray-200">
-            <thead>
-              <tr>
-                <th className="border border-gray-300 px-4 py-2">Tên bệnh viện</th>
-                <th className="border border-gray-300 px-4 py-2">Bác sĩ cũ</th>
-                <th className="border border-gray-300 px-4 py-2">Bác sĩ mới</th>
-                <th className="border border-gray-300 px-4 py-2">Lý do</th>
-                <th className="border border-gray-300 px-4 py-2">Thời gian tạo</th>
-                <th className="border border-gray-300 px-4 py-2">Trạng thái</th>
-                <th className="border border-gray-300 px-4 py-2">Hành động</th>
-              </tr>
-            </thead>
-            <tbody>
-  {filteredRequests.map((request:any) => (
-    <tr key={request.id}>
-      <td className="border border-gray-300 px-4 py-2">{request.hospitalName}</td>
-      <td className="border border-gray-300 px-4 py-2">
-        {request.oldDoctor}{' '}
-        <button
-          onClick={() => handleViewDetails(request.oldDoctor)}
-          className="text-blue-500 underline hover:text-blue-700"
-        >
-          Xem chi tiết
-        </button>
-      </td>
-      <td className="border border-gray-300 px-4 py-2">
-        {request.newDoctor}{' '}
-        <button
-          onClick={() => handleViewDetails(request.newDoctor)}
-          className="text-blue-500 underline hover:text-blue-700"
-        >
-          Xem chi tiết
-        </button>
-      </td>
-      <td className="border border-gray-300 px-4 py-2">{request.reason}</td>
-      <td className="border border-gray-300 px-4 py-2">{request.timeCreated}</td>
-      <td
-        className={`border border-gray-300 px-4 py-2 ${
-          request.status === 'Đã phê duyệt'
-            ? 'text-green-500'
-            : request.status === 'Đã từ chối'
-            ? 'text-red-500'
-            : 'text-yellow-500'
-        }`}
-      >
-        {request.status}
-      </td>
-      <td className="border border-gray-300 px-4 py-2">
-        {request.status === 'Đang chờ' && (
-          <div className="flex gap-2">
-            <button
-              onClick={() => handleApprove(request.id,request.hospitalToken,request.tokenoldDoctornew,request.tokenoldDoctorcurrent)}
-              className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-            >
-              Phê duyệt
-            </button>
-            <button
-              onClick={() => handleReject(request.id)}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-            >
-              Từ chối
-            </button>
+    <>
+      <h1 className="text-2xl">Quản lý yêu cầu đổi bác sĩ</h1>
+      <div className="panel mt-6">
+        <div className="bg-white p-6 shadow rounded-lg">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+            <h2 className="text-xl mb-2 md:mb-0">Danh sách yêu cầu</h2>
+            <input
+              type="text"
+              placeholder="Tìm kiếm..."
+              className="border border-gray-300 p-2 rounded w-full md:w-1/3"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
-        )}
-      </td>
-    </tr>
-  ))}
-</tbody>
 
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full table-auto border-collapse border border-gray-200">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2">Tên bệnh viện</th>
+                  <th className="border border-gray-300 px-4 py-2">Bác sĩ cũ</th>
+                  <th className="border border-gray-300 px-4 py-2">Bác sĩ mới</th>
+                  <th className="border border-gray-300 px-4 py-2">Lý do</th>
+                  <th className="border border-gray-300 px-4 py-2">Thời gian tạo</th>
+                  <th className="border border-gray-300 px-4 py-2">Trạng thái</th>
+                  <th className="border border-gray-300 px-4 py-2">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredRequests.map((request: any) => (
+                  <tr key={request.id}>
+                    <td className="border border-gray-300 px-4 py-2">{request.hospitalName}</td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {request.oldDoctor}{' '}
+                      <button
+                        onClick={() => handleViewDetails(request.oldDoctor)}
+                        className="text-blue-500 underline hover:text-blue-700"
+                      >
+                        Xem chi tiết
+                      </button>
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {request.newDoctor}{' '}
+                      <button
+                        onClick={() => handleViewDetails(request.newDoctor)}
+                        className="text-blue-500 underline hover:text-blue-700"
+                      >
+                        Xem chi tiết
+                      </button>
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">{request.reason}</td>
+                    <td className="border border-gray-300 px-4 py-2">{request.timeCreated}</td>
+                    <td
+                      className={`border border-gray-300 px-4 py-2 ${request.status === 'Đã phê duyệt'
+                        ? 'text-green-500'
+                        : request.status === 'Đã từ chối'
+                          ? 'text-red-500'
+                          : 'text-yellow-500'
+                        }`}
+                    >
+                      {request.status}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {request.status === 'Đang chờ' && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleApprove(request.id, request.hospitalToken, request.tokenoldDoctornew, request.tokenoldDoctorcurrent)}
+                            className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                          >
+                            Phê duyệt
+                          </button>
+                          <button
+                            onClick={() => handleReject(request.id)}
+                            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                          >
+                            Từ chối
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

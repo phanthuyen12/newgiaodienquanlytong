@@ -88,16 +88,10 @@ const ManagementNetwork = () => {
   }, [dispatch]);
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Thêm Bệnh Viện Mới</h1>
-
-    
-   
-
-
+    <div className="container">
+      <h1 className="text-2xl mb-4">Thêm Bệnh Viện Mới</h1>
       {/* Add Hospital Form */}
       <div className="bg-white p-6 shadow rounded-lg mb-6">
-        <h2 className="text-xl mb-4">Thêm Bệnh Viện</h2>
         <div className="mb-4">
           <label className="block mb-2">Tên Bệnh Viện</label>
           <input
