@@ -66,13 +66,13 @@ export default function HospitalApproval() {
 
     try {
       // Gửi yêu cầu POST đầu tiên tới API để hủy kết nối tổ chức
-      const response = await fetch(`${API_URL}/creater-org-folders`, {
+      const response = await fetch(`${API_URL}/hospital/uptatestatus`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          value: record.statusOrg,
+          status: false,
           tokeorg: record.tokeorg,
         }),
       });
@@ -91,7 +91,7 @@ export default function HospitalApproval() {
       loadingSwal.close();
       MySwal.fire({
         title: 'Hoàn Thành',
-        text: 'Phê Duyệt Thành Công',
+        text: 'Cập Nhật Thành Công',
         icon: 'success',
       });
   
@@ -266,7 +266,25 @@ export default function HospitalApproval() {
       });
   
       const _data = await responses.json();
-      console.log('Success:', _data);
+      // if(_data){
+      //   const dataz = {
+      //     tokenorg: record.tokeorg,
+      //     status:true
+      //   }
+      //   const response2 = await fetch(`${API_URL}/hospital/upsyncstatus`, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Accept': 'application/json',
+      //     },
+      //     credentials: 'include', // Include credentials for authentication
+      //     body: JSON.stringify(dataz),
+      //   });
+  
+      //   const result2 = await response2.json();
+    
+      // }
+      // console.log('Success:', _data);
       if(_data.status===true){
         MySwal.fire({
           title: 'Hoàn Thành',
@@ -362,11 +380,8 @@ export default function HospitalApproval() {
                   <Button
                   color={record.statusOrg === "true" ? 'red' : 'red '}
                   onClick={() => {
-                    if (record.statusOrg === "true") {
                       handleStopOrg(record);
-                    } else {
-                      handleApproveClick(record);
-                    }
+                    
                   }}
                 >
                   {record.statusOrg === "true" ? 'Hủy kết nối' : 'Phê Duyệt'} 
