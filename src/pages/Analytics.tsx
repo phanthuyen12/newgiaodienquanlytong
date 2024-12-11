@@ -9,7 +9,7 @@ const Analytics = () => {
 
     const [totalHospitalTrue, settotalHospitalTrue] = useState(0);
     const [totalHospitalFalse, settotalHospitalFalse] = useState(0);
-    const [totalPatients, setTotalPatients] = useState(0);
+    const [totalPatient, setTotalPatient] = useState(0);
     const [totalMember, setTotalMember] = useState(0);
 
     const dispatch = useDispatch();
@@ -19,23 +19,61 @@ const Analytics = () => {
 
     const showdata = async () => {
         try {
-            const response = await fetch(`${API_URL}/true/show-all-org`);
-            if (!response.ok) {
+            //lấy danh sách bệnh viện đã đc phê duyệt
+            const response1 = await fetch(`${API_URL}/true/show-all-org`);
+            if (!response1.ok) {
                 throw new Error('Network response was not ok');
             }
-            const data: any = await response.json();
-            console.log("vinh",data);
-            const totalHospital = data.length;
+            const data1: any = await response1.json();
+            const totalHospital1 = data1.length;
+            settotalHospitalTrue(totalHospital1);
+            console.log("vinh200", data1);
 
-            settotalHospitalTrue(totalHospital);
+
+            //lấy danh sách bệnh viện chưa đc phê duyệt
+            const response2 = await fetch(`${API_URL}/false/show-all-org`);
+            if (!response2.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data2: any = await response2.json();
+            const totalHospital2 = data2.length;
+            settotalHospitalFalse(totalHospital2);
+
+            //lấy danh sách thành viên
+            const response3 = await fetch(`${API_URL}/out/count-medical`, { //thay đổi API Đếm Thành Viên
+                method: 'POST',
+            });
+            if (!response3.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data3: any = await response3.json();
+            const totalMembers = data3.data;
+            setTotalMember(totalMembers);
+
+            //lấy danh sách sổ khám
+            const response4 = await fetch(`${API_URL}/out/count-medical`, {
+                method: 'POST',
+            });
+            if (!response4.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data4: any = await response4.json();
+            console.log("vinh100", data4);
+            const totalPatients = data4.data;
+            setTotalPatient(totalPatients);
         } catch (error) {
             console.error('Error fetching data:', error);
             settotalHospitalTrue(0);
+            settotalHospitalFalse(0);
+            setTotalMember(0);
+            setTotalPatient(0);
+
         }
     };
-    useEffect (()=>{
+    useEffect(() => {
         showdata();
-    },[])
+    }, [])
+
 
     return (
         <div>
@@ -53,34 +91,34 @@ const Analytics = () => {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                     <div className="panel h-full">
                         <div className="flex justify-between dark:text-white-light mb-5">
-                            <h5 className="font-semibold text-lg">Tổng số bệnh viện chờ duyệt</h5>
+                            <h5 className="text-center font-semibold text-lg">Tổng số bệnh viện chờ duyệt</h5>
                         </div>
-                        <div className="text-[#e95f2b] text-3xl font-bold my-10">
-                            <span>$ 45,141</span>
-                        </div>
-                    </div>
-                    <div className="panel h-full">
-                        <div className="flex justify-between dark:text-white-light mb-5">
-                            <h5 className="font-semibold text-lg">Tổng số bệnh viện đã duyệt</h5>
-                        </div>
-                        <div className="text-[#e95f2b] text-3xl font-bold my-10">
-                            <span>$ 45,141</span>
+                        <div className="text-[#e95f2b] text-center text-3xl font-bold my-10">
+                            <span>{totalHospitalFalse}</span>
                         </div>
                     </div>
                     <div className="panel h-full">
                         <div className="flex justify-between dark:text-white-light mb-5">
-                            <h5 className="font-semibold text-lg">Tổng số thành viên</h5>
+                            <h5 className=" text-center font-semibold text-lg">Tổng số bệnh viện đã duyệt</h5>
                         </div>
-                        <div className="text-[#e95f2b] text-3xl font-bold my-10">
-                            <span>$ 45,141</span>
+                        <div className="text-[#e95f2b] text-center text-3xl font-bold my-10">
+                            <span>{totalHospitalTrue}</span>
+                        </div>
+                    </div>
+                    <div className="panel h-full">
+                        <div className=" flex justify-between dark:text-white-light mb-5">
+                            <h5 className=" font-semibold text-lg">Tổng số thành viên đăng ký</h5>
+                        </div>
+                        <div className="text-[#e95f2b] text-center text-3xl font-bold my-10">
+                            <span>{totalMember}</span>
                         </div>
                     </div>
                     <div className="panel h-full">
                         <div className="flex justify-between dark:text-white-light mb-5">
-                            <h5 className="font-semibold text-lg">Tổng số sổ khám đã đăng ký</h5>
+                            <h5 className="text-center font-semibold text-lg">Tổng số sổ khám đã đăng ký</h5>
                         </div>
-                        <div className="text-[#e95f2b] text-3xl font-bold my-10">
-                            <span>$ 45,141</span>
+                        <div className="text-[#e95f2b] text-center text-3xl font-bold my-10">
+                            <span>{totalPatient}</span>
                         </div>
                     </div>
                 </div>
